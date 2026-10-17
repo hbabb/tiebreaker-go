@@ -1,0 +1,25 @@
+# Build output
+/bin/
+/tiebreaker
+*.exe
+
+# Test / coverage output
+*.test
+*.out
+coverage.*
+
+# Secrets
+.env
+
+# Databases
+**/*.sqlite*
+data/*.db*
+
+# IDEs / editors
+.idea/
+*.iml
+.vscode/
+.zed
+
+# OS files
+.DS_Store
