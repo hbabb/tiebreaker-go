@@ -1,2 +1,7 @@
 [tools]
+doppler = "3.77.0"
+"github:a-h/templ" = "0.3.1070"
+"github:pressly/goose" = "3.29.0"
 go = "1.27"
+golangci-lint = "2.15.0"
+sqlc = "1.31.1"
