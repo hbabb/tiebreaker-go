@@ -12,9 +12,9 @@ func TestHomePageReturnsHTML(t *testing.T) {
 	handler := New()
 	request := httptest.NewRequest(http.MethodGet, "/", nil)
 	recorder := httptest.NewRecorder()
-	
+
 	handler.ServeHTTP(recorder, request)
-	
+
 	assert.Equal(t, http.StatusOK, recorder.Code)
 	assert.Contains(t, recorder.Header().Get("Content-Type"), "text/html")
 }
