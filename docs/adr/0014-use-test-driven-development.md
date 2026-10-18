@@ -6,6 +6,9 @@ Date: 2026-10-16
 
 Accepted
 
+The test library is amended by
+[ADR-0020](0020-use-testify-for-test-assertions.md).
+
 ## Context
 
 The challenge defines exact rules that can be checked automatically. For
