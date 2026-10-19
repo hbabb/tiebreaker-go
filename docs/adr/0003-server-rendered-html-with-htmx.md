@@ -4,7 +4,7 @@ Date: 2026-10-16
 
 ## Status
 
-Accepted
+Superseded by [ADR-0021](0021-use-alpine-and-alpine-ajax.md).
 
 ## Context
 
@@ -58,4 +58,3 @@ We will render HTML on the server and use HTMX for partial updates.
 - The Python version marks fragments with a `_` file prefix
   (`_results.html`). That convention does not carry over: in templ, a
   fragment is an ordinary component.
-

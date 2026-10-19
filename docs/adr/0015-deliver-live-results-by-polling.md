@@ -4,7 +4,7 @@ Date: 2026-10-16
 
 ## Status
 
-Accepted
+Superseded by [ADR-0021](0021-use-alpine-and-alpine-ajax.md).
 
 ## Context
 
