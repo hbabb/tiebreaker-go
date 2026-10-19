@@ -22,3 +22,12 @@ run = "go fmt ./..."
 [tasks.check]
 description = "Check dependencies for vulnerabilities"
 run = "govulncheck ./..."
+
+[tasks.precommit]
+description = "Format, lint, test, and scan for vulnerabilities in that order"
+run = [
+  { task = "format" },
+  { task = "lint" },
+  { task = "test" },
+  { task = "check" },
+]

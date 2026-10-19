@@ -108,7 +108,7 @@ tiebreaker-go/
 │   ├── embed.go                 ← embeds the folders below into the binary
 │   ├── css/
 │   ├── img/
-│   └── js/                      ← htmx.min.js and JSDoc-typed scripts (ADR-0010)
+│   └── js/                      ← Alpine.js, Alpine AJAX (ADR-0021), and JSDoc-typed scripts (ADR-0010)
 ├── migrations/                  ← goose .sql files, numbered with zero padding (ADR-0013)
 ├── docs/
 │   └── adr/
@@ -186,3 +186,4 @@ Nothing imports `server` except `main`.
   clone. How it is created is not yet decided.
 - The Python version groups code by feature. That layout does not carry
   over: in Go, every folder is a package boundary, and grouping by layer
+  keeps the number of packages and the risk of import cycles low.
