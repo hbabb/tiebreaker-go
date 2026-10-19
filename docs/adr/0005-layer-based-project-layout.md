@@ -186,4 +186,3 @@ Nothing imports `server` except `main`.
   clone. How it is created is not yet decided.
 - The Python version groups code by feature. That layout does not carry
   over: in Go, every folder is a package boundary, and grouping by layer
-  keeps the number of packages and the risk of import cycles low.

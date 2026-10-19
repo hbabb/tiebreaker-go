@@ -5,6 +5,7 @@ doppler = "3.77.0"
 go = "1.27"
 golangci-lint = "2.15.0"
 sqlc = "1.31.1"
+"go:golang.org/x/vuln/cmd/govulncheck" = "1.9.0"
 
 [tasks.test]
 description = "Run the test suite"
@@ -17,3 +18,7 @@ run = "golangci-lint run"
 [tasks.format]
 description = "Format code with gofmt"
 run = "go fmt ./..."
+
+[tasks.check]
+description = "Check dependencies for vulnerabilities"
+run = "govulncheck ./..."
