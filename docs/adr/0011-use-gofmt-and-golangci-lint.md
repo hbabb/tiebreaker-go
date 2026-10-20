@@ -4,7 +4,7 @@ Date: 2026-10-16
 
 ## Status
 
-Accepted
+Superseded by [ADR-0022](0022-format-and-lint-with-golangci-lint-and-templ.md).
 
 ## Context
 
