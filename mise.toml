@@ -11,22 +11,30 @@ sqlc = "1.31.1"
 description = "Run the test suite"
 run = "go test ./..."
 
+[tasks.generate]
+description = "Generate Go code from templ files"
+run = "templ generate"
+
+[tasks.format]
+description = "Format templ files with templ, and Go files with golangci-lint"
+run = [
+  "templ fmt .",
+  "golangci-lint fmt",
+]
+
 [tasks.lint]
 description = "Check code with golangci-lint"
 run = "golangci-lint run"
-
-[tasks.format]
-description = "Format code with gofmt"
-run = "go fmt ./..."
 
 [tasks.check]
 description = "Check dependencies for vulnerabilities"
 run = "govulncheck ./..."
 
 [tasks.precommit]
-description = "Format, lint, test, and scan for vulnerabilities in that order"
+description = "Format, generate, lint, test, and scan for vulnerabilities in that order"
 run = [
   { task = "format" },
+  { task = "generate" },
   { task = "lint" },
   { task = "test" },
   { task = "check" },
