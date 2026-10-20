@@ -1,1 +1,39 @@
 version: "2"
+
+# Linters report likely bugs and bad patterns (ADR-0011).
+linters:
+  # The standard set: errcheck, govet, ineffassign, staticcheck, unused.
+  default: standard
+  enable:
+    - bodyclose # HTTP response bodies are closed
+    - errorlint # errors are compared with errors.Is / errors.As, so wrapped errors still match
+    - gosec # security checks, such as missing server timeouts and math/rand
+    - misspell # common English misspellings in comments and strings
+    - noctx # outgoing HTTP requests carry a context, so they can be cancelled
+    - nolintlint # every //nolint comment names a linter and gives a reason
+    - rowserrcheck # rows.Err() is checked after reading database rows
+    - sloglint # log/slog calls use one consistent style
+    - sqlclosecheck # database rows and statements are closed
+    - testifylint # testify assertions are used correctly (ADR-0020)
+    - usestdlibvars # standard library constants, such as http.MethodGet, instead of raw strings
+  settings:
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+  exclusions:
+    rules:
+      # Test requests never leave the process, so they don't need a cancellable context.
+      - path: _test\.go
+        linters:
+          - noctx
+
+# Formatters rewrite code into one style (ADR-0011).
+formatters:
+  enable:
+    - gofmt # the standard Go format
+    - goimports # gofmt, plus adds missing imports, removes unused ones, and groups them
+  settings:
+    goimports:
+      # Puts this project's own imports in their own group, after third-party ones.
+      local-prefixes:
+        - github.com/hbabb/tiebreaker-go
