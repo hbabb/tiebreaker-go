@@ -18,5 +18,7 @@ func New() http.Handler {
 	r.Method(http.MethodGet, "/", templ.Handler(views.Home()))
 	r.Handle("/static/*", http.StripPrefix("/static/", http.FileServerFS(static.Files)))
 
-	return r
+	// Rejects cross-origin POST, PUT, PATCH, and DELETE requests to prevent CSRF attacks.
+	// with 403 Forbidden (ADR-0016). GET, HEAD, and OPTIONS requests are allowed to pass through.
+	return http.NewCrossOriginProtection().Handler(r)
 }
