@@ -6,8 +6,11 @@ is recorded in [`docs/adr/`](docs/adr/).
 
 ## Setup
 
-Requirements: [mise](https://mise.jdx.dev/). mise installs Go and the
-project's command-line tools ([ADR-0004](docs/adr/0004-use-mise-and-go-modules-for-tooling.md)).
+Requirements: Go 1.27 or newer, [Just](https://just.systems/),
+[golangci-lint](https://golangci-lint.run/), and the
+[Doppler CLI](https://docs.doppler.com/docs/cli). templ, goose, sqlc, and
+govulncheck are pinned in `go.mod` and run with `go tool`
+([ADR-0023](docs/adr/0023-use-just-and-go-tool-directive-for-tooling.md)).
 
 Clone the repository and move into it:
 
@@ -17,12 +20,6 @@ git clone git@github.com:hbabb/tiebreaker-go.git
 
 ```sh
 cd tiebreaker-go
-```
-
-Install the pinned Go version and tools (set in `mise.toml`):
-
-```sh
-mise install
 ```
 
 Link the folder to the Doppler project, which supplies secrets as
@@ -35,11 +32,11 @@ doppler setup
 Start the development server:
 
 ```sh
-mise run dev
+just run
 ```
 
-Go downloads the libraries listed in `go.mod` the first time the app is
-built. There is no separate install step.
+Go downloads the libraries and tools listed in `go.mod` the first time they
+are used. There is no separate install step.
 
 ## Branching
 
@@ -176,10 +173,16 @@ linted with golangci-lint, using the `gofmt` and `goimports` formatters
 ([ADR-0022](docs/adr/0022-format-and-lint-with-golangci-lint-and-templ.md)).
 Settings live in `.golangci.yml`.
 
-Format every file:
+Format `.templ` files:
 
 ```sh
-mise run format
+just templ-fmt
+```
+
+Format Go files:
+
+```sh
+just fmt
 ```
 
 Regenerate Go code after changing a `.templ` file. The generated
@@ -187,30 +190,30 @@ Regenerate Go code after changing a `.templ` file. The generated
 ([ADR-0019](docs/adr/0019-use-templ-for-templates.md)):
 
 ```sh
-mise run generate
+just generate
 ```
 
 Check code and formatting:
 
 ```sh
-mise run lint
+just lint
 ```
 
 Check dependencies for known vulnerabilities with govulncheck. It reports
 only vulnerabilities in code the app actually calls:
 
 ```sh
-mise run check
+just vuln
 ```
 
-Before pushing, run all of the above and the tests, in order:
+Before pushing, run `go mod tidy`, all of the above, and the tests, in order:
 
 ```sh
-mise run precommit
+just pre-commit
 ```
 
 The order matters: formatting a template changes its generated file, so
-`generate` runs after `format`.
+`generate` runs after `templ-fmt`.
 
 Generated files, including `_templ.go`, are never edited by hand and are
 skipped by the linter.
@@ -238,7 +241,7 @@ or govulncheck; the rest are checked in review.
   are never committed; they come from Doppler.
 - **Error responses.** A user sees a general error message, never the text
   of a Go error. The full error is logged on the server.
-- **Dependencies.** `mise run check` passes before a pull request is merged.
+- **Dependencies.** `just vuln` passes before a pull request is merged.
 
 ## Signed commits
 

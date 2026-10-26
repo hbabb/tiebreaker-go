@@ -10,16 +10,16 @@ Supersedes [ADR-0011](0011-use-gofmt-and-golangci-lint.md).
 
 ## Context
 
-ADR-0011 chose `gofmt` for formatting, run with `go fmt ./...`, and
+ADR-0011 chose `gofumpt` for formatting, run with `go fmt ./...`, and
 golangci-lint v2 with its default linter set. Two gaps have appeared since:
 
 - **`.templ` files were not formatted.** `go fmt` only reads `.go` files.
   The templ CLI ships its own formatter, `templ fmt`, which also keeps the
   generated `_templ.go` files in step with their templates (ADR-0019).
-- **Imports were not grouped or cleaned up.** `gofmt` sorts imports but does
+- **Imports were not grouped or cleaned up.** `gofumpt` sorts imports but does
   not add missing ones, remove unused ones, or separate the project's own
   packages from third-party ones. `goimports` does all three, and applies
-  `gofmt` as well.
+  `gofumpt` as well.
 
 golangci-lint v2 includes formatters as well as linters. `golangci-lint fmt`
 rewrites files, and `golangci-lint run` reports any file that is not
@@ -34,7 +34,7 @@ testify assertions used incorrectly, and inconsistent `log/slog` calls.
 
 - **Formatting:**
   - `.templ` files: `templ fmt .`
-  - Go files: `golangci-lint fmt`, with the `gofmt` and `goimports`
+  - Go files: `golangci-lint fmt`, with the `gofumpt` and `goimports`
     formatters. `goimports` puts imports starting with
     `github.com/hbabb/tiebreaker-go` in their own group.
 - **Linting:** `golangci-lint run`, starting from the `standard` set, with

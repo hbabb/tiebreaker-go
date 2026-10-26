@@ -4,7 +4,7 @@ Date: 2026-10-16
 
 ## Status
 
-Accepted
+Superseded by [ADR-0023](0023-use-just-and-go-tool-directive-for-tooling.md).
 
 ## Context
 
