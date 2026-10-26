@@ -2,17 +2,44 @@ name: CI
 
 on:
   pull_request:
-  push:
     branches: [main]
-  schedule:
-    - cron: "17 9 * * 1" # Mondays 09:17 UTC - catches new vulnerabilities in unchanged code
+
+permissions:
+  contents: read
 
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: jdx/mise-action@v5
-      - run: mise run test
-      - run: mise run lint
-      - run: mise run check
+      - name: Check out code
+        uses: actions/checkout@v7
+
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Generate templ files
+        run: go tool templ generate
+
+      - name: Fail if generated files are out of date
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "Generated files are out of date. Run 'go tool templ generate' and commit the result."
+            git status --porcelain
+            exit 1
+          fi
+
+      - name: Check templ formatting
+        run: go tool templ fmt -fail .
+
+      - name: Lint and check Go formatting
+        uses: golangci/golangci-lint-action@v9
+        with:
+          version: latest
+
+      - name: Check for vulnerabilities
+        run: go tool govulncheck ./...
+
+      - name: Test
+        run: go test ./...
