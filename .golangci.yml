@@ -1,21 +1,27 @@
 version: "2"
 
-# Linters report likely bugs and bad patterns (ADR-0011).
+# Linters report linting issues in Go code. They are enabled by default, but can be disabled or configured.
 linters:
-  # The standard set: errcheck, govet, ineffassign, staticcheck, unused.
+  # Keep the five defaults: errcheck, govet, ineffassign, staticcheck, unused.
   default: standard
   enable:
-    - bodyclose # HTTP response bodies are closed
-    - errorlint # errors are compared with errors.Is / errors.As, so wrapped errors still match
-    - gosec # security checks, such as missing server timeouts and math/rand
-    - misspell # common English misspellings in comments and strings
-    - noctx # outgoing HTTP requests carry a context, so they can be cancelled
-    - nolintlint # every //nolint comment names a linter and gives a reason
-    - rowserrcheck # rows.Err() is checked after reading database rows
-    - sloglint # log/slog calls use one consistent style
-    - sqlclosecheck # database rows and statements are closed
-    - testifylint # testify assertions are used correctly (ADR-0020)
-    - usestdlibvars # standard library constants, such as http.MethodGet, instead of raw strings
+    - errorlint       # errors are compared with errors.Is / errors.As, so wrapped errors still match
+    - gosec           # security checks, such as missing server timeouts and math/rand
+    - nilerr          # errors are checked for nil before calling methods on them
+    - bodyclose       # HTTP response bodies are closed
+    - noctx           # outgoing HTTP requests carry a context, so they can be cancelled
+    - usestdlibvars   # standard library constants, such as http.MethodGet, instead of raw strings
+    - gocritic        # many checks, including: unnecessary type conversions, redundant if statements, and more
+    - revive          # many checks, including: unnecessary type conversions, redundant if statements, and more
+    - unconvert       # unnecessary type conversions, such as int32(x) when x is already an int32
+    - unparam         # function parameters that are never used
+    - modernize       # modernize Go code
+    - misspell        # common English misspellings in comments and strings
+    - nolintlint      # every //nolint comment names a linter and gives a reason
+    - testifylint     # testify assertions are used correctly
+    - rowserrcheck    # rows.Err() is checked after reading database rows
+    - sloglint        # log/slog calls use one consistent style
+    - sqlclosecheck   # database rows and statements are closed
   settings:
     nolintlint:
       require-explanation: true
@@ -30,8 +36,8 @@ linters:
 # Formatters rewrite code into one style (ADR-0011).
 formatters:
   enable:
-    - gofmt # the standard Go format
-    - goimports # gofmt, plus adds missing imports, removes unused ones, and groups them
+    - gofumpt         # the standard Go format
+    - goimports       # gofmt, plus adds missing imports, removes unused ones, and groups them
   settings:
     goimports:
       # Puts this project's own imports in their own group, after third-party ones.
